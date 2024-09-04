@@ -7,24 +7,39 @@ class JeemaCoder extends React.Component {
       emailInput: "",
       telephoneInput: "",
       coders: [],
+      editIndex: null
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
+    // pour gérer le clic du bouton
     const newCoder = {
       prenom: this.state.prenomInput,
       nom: this.state.nomInput,
       email: this.state.emailInput,
       telephone: this.state.telephoneInput,
     };
+    // ajouter un nouveau codeur
     this.setState({ coders: [newCoder, ...this.state.coders] });
+    // vider le formulaire
     this.setState({
       prenomInput: "",
       nomInput: "",
       emailInput: "",
       telephoneInput: "",
     });
+  }
+
+  handleEdit(index) {
+    const coder = this.state.coders[index]
+    this.setState({
+      prenomInput: coder.prenom,
+      nomInput: coder.nom,
+      emailInput: coder.email,
+      telephoneInput: coder.telephone,
+      // editIndex: index
+      })
   }
 
   render() {
@@ -82,35 +97,43 @@ class JeemaCoder extends React.Component {
                 />
               </div>
             </div>
-
             <button
               onClick={this.handleClick}
               className="btn btn-outline-primary w-100 mt-3"
             >
               Submit
             </button>
+            
           </div>
         </div>
-
         <div className="mt-5 container">
           <h3 className="text-center">Coders</h3>
-          <table className="table">
+          <table class="table">
             <thead>
               <tr>
                 <th scope="col">Prenom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Email</th>
                 <th scope="col">Telephone</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.coders.map((coder) => {
+              {this.state.coders.map((coder, index) => {
                 return (
                   <tr>
                     <td>{coder.prenom}</td>
                     <td>{coder.nom}</td>
                     <td>{coder.email}</td>
                     <td>{coder.telephone}</td>
+                    <td>
+                      <button className= " btn btn-outline-warning" 
+                      onClick={ () => this.handleEdit(index )}
+                      >
+                      Modifier
+                      </button>
+                    </td>
+
                   </tr>
                 );
               })}
